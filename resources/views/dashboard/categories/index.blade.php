@@ -8,28 +8,23 @@
             {{ session('success') }}
         </div>
     @endif
-    @if (session()->has('error'))
-        <div class="alert alert-danger" role="alert">
-            {{ session('error') }}
-        </div>
-    @endif
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-      <h1>Daftar Post</h1>
+      <h1>Daftar Categoy</h1>
     </div>
-    <a href="/post/create" class="btn btn-primary">Tambah Post</a>
+    <a href="/post/create" class="btn btn-primary">Tambah Category</a>
     <table class="table">
         <tr>
             <th>No</th>
-            <th>Judul</th>
+            <th>Nama Category</th>
             <th>Action</th>
         </tr>
-        @foreach ($posts as $post)
+        @foreach ($categories as $category)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $post->judul }}</td>
+                <td>{{ $category->nama }}</td>
                 <td>
-                    <a href="/post/{{ $post->id }}/edit" class="btn btn-warning">Edit</a>
-                    <form action="/post/{{ $post->id }}" style="display: inline" method="POST">
+                    <a href="/category/{{ $category->id }}/edit" class="btn btn-warning">Edit</a>
+                    <form action="/category/{{ $category->id }}" style="display: inline" method="POST">
                         @method('delete')
                         @csrf
                         <button class="btn btn-danger" type="submit">

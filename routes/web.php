@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -21,8 +23,10 @@ Route::get('/about', function () {
 });
 
 Route::get('/blog', function () {
+    $posts = Post::all();
     return view('blog', [
         'active' => 'blog',
+        'posts' => $posts,
     ]);
 });
 
@@ -38,12 +42,13 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/post', [PostController::class, 'index']);
-
     Route::get('/post/create', [PostController::class, 'create']);
     Route::post('/post', [PostController::class, 'store']);
-    
     Route::get('/post/{post}/edit', [PostController::class, 'edit']);
     Route::post('/post/{post}/update', [PostController::class, 'update']);
+    Route::delete('/post/{post}', [PostController::class, 'destroy']);
+
+    Route::get('/category', [CategoryController::class, 'index']);
 });
 
 require __DIR__.'/auth.php';

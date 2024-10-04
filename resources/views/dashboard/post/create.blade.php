@@ -7,15 +7,33 @@
     </div>
     <div class="row">
         <div class="col-8">
-            <form action="/post" method="POST" class="form">
+            <form action="/post" method="POST" class="form" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-2">
                     <label for="judul">Judul</label>
-                    <input type="text" class="form-control" id="judul" name="judul">
+                    <input type="text" class="form-control @error('judul') is-invalid @enderror" id="judul" name="judul">
+                </div>
+                <div class="mb-2">
+                    <label for="slug">Slug</label>
+                    <input type="text" class="form-control @error('slug') is-invalid @enderror" id="slug" name="slug">
+                </div>
+                <div class="mb-2">
+                    <label for="category">Category</label>
+                    <select name="category_id" id="category" class="form-control form-select @error('category_id') is-invalid @enderror">
+                        <option disabled selected>-- Pilih Category --</option>
+                        @foreach ($categories as $item)
+                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="mb-2">
+                    <label for="image">Image</label>
+                    <img class="img-preview img-fluid mb-3 col-sm-5">
+                    <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" onchange="previewImage()">
                 </div>
                 <div class="my-2">
                     <label for="konten">Konten</label>
-                    <textarea name="konten" id="konten" cols="30" rows="10" class="form-control"></textarea>
+                    <textarea name="konten" id="konten" cols="50" rows="25" class="form-control"></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary my-2">
                     Buat Post
@@ -24,4 +42,33 @@
         </div>
     </div>
 </main>
+
+<script>
+    $(document).ready(function() {
+        $('#konten').summernote({
+            placeholder: 'Hello stand alone ui',
+            tabsize: 2,
+            height: 200,
+            toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['para', ['ul', 'ol', 'paragraph']],
+        ]
+        });
+    });
+
+    function previewImage(){
+        const image = document.querySelector('#image');
+        const imgPreview = document.querySelector('.img-preview');
+
+        imgPreview.style.display = 'block';
+
+        const oFReader = new FileReader();
+        oFReader.readAsDataURL(image.files[0]);
+
+        oFReader.onload = function(oFREvent){
+            imgPreview.src = oFREvent.target.result;
+        }
+    }
+</script>
 @endsection
