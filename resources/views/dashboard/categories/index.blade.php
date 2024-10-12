@@ -11,7 +11,7 @@
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
       <h1>Daftar Categoy</h1>
     </div>
-    <a href="/post/create" class="btn btn-primary">Tambah Category</a>
+    <a href="/category/create" class="btn btn-primary">Tambah Category</a>
     <table class="table">
         <tr>
             <th>No</th>
@@ -23,8 +23,8 @@
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $category->nama }}</td>
                 <td>
-                    <a href="/category/{{ $category->id }}/edit" class="btn btn-warning">Edit</a>
-                    <form action="/category/{{ $category->id }}" style="display: inline" method="POST">
+                    <a href="/category/{{ $category->slug }}/edit" class="btn btn-warning">Edit</a>
+                    <form action="/category/{{ $category->slug }}" style="display: inline" method="POST">
                         @method('delete')
                         @csrf
                         <button class="btn btn-danger" type="submit">

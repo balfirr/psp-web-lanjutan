@@ -21,12 +21,14 @@
         <tr>
             <th>No</th>
             <th>Judul</th>
+            <th>Category</th>
             <th>Action</th>
         </tr>
         @foreach ($posts as $post)
             <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $post->judul }}</td>
+                <td>{{ $post->category->nama }}</td>
                 <td>
                     <a href="/post/{{ $post->id }}/edit" class="btn btn-warning">Edit</a>
                     <form action="/post/{{ $post->id }}" style="display: inline" method="POST">

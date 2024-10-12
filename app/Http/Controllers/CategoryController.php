@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
+use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
@@ -24,15 +24,24 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.categories.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCategoryRequest $request)
+    public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nama' => 'required|string',
+            'slug' => 'required|string',
+        ]);
+
+        $category = Category::create($validated);
+        if (!$category) {
+            return redirect('/category/create')->with('error', 'Category gagal dibuat!');
+        }
+        return redirect('/category')->with('success', 'Category berhasil dibuat!');
     }
 
     /**
@@ -48,7 +57,9 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('dashboard.categories.edit', [
+            'category' => $category,
+        ]);
     }
 
     /**
@@ -56,7 +67,12 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        //
+        $validated = $request->validate([
+            'nama' => 'required|string',
+            'slug' => 'required|string',
+        ]);
+
+        $category->update($validated);
     }
 
     /**
@@ -64,6 +80,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return redirect('/category')->with('success', 'Category berhasil dihapus!');
     }
 }

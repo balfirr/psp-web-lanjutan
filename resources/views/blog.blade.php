@@ -1,7 +1,6 @@
 @extends('template.main')
 
 @section('content')
-<p>Ini halaman blog</p>
 <div class="container">
     <div class="row">
         @foreach ($posts as $item)
@@ -11,10 +10,10 @@
                     <div class="card-body">
                         <div class="card-title">
                             <h5>
-                                <a href="" class="text-decoration-none text-dark">{{ $item->judul }}</a>
+                                <a href="/post/{{ $item->id }}" class="text-decoration-none text-dark">{{ $item->judul }}</a>
                             </h5>
-                            <p class="card-text">{!! \Illuminate\Support\Str::words($item->konten, 10, '...') !!}</p>
-                            <a href="" class="text-decoration-none">Read more ..</a>
+                            <p class="card-text">{!! Str::limit(strip_tags($item->konten), 150) !!}</p>
+                            <a href="/post/{{ $item->id }}" class="text-decoration-none">Read more ..</a>
                         </div>
                     </div>
                 </div>

@@ -40,6 +40,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('/post/{post}', [PostController::class, 'show']);
+
 Route::middleware('auth')->group(function () {
     Route::get('/post', [PostController::class, 'index']);
     Route::get('/post/create', [PostController::class, 'create']);
@@ -47,8 +49,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/post/{post}/edit', [PostController::class, 'edit']);
     Route::post('/post/{post}/update', [PostController::class, 'update']);
     Route::delete('/post/{post}', [PostController::class, 'destroy']);
-
+    
     Route::get('/category', [CategoryController::class, 'index']);
+    Route::get('/category/create', [CategoryController::class, 'create']);
+    Route::post('/category', [CategoryController::class, 'store']);
+    Route::get('/category/{category:slug}/edit', [CategoryController::class, 'edit']);
+    Route::post('/category/{category:slug}/update', [CategoryController::class, 'update']);
+    Route::delete('/category/{category:slug}', [CategoryController::class, 'destroy']);
 });
 
 require __DIR__.'/auth.php';

@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -54,6 +55,7 @@ class PostController extends Controller
     {
         return view('dashboard.post.edit', [
             'post' => $post,
+            'categories' => Category::all()
         ]);
     }
 
@@ -61,16 +63,36 @@ class PostController extends Controller
     {
         $validatedData = $request->validate([
             'judul' => 'required|max:255|min:3',
-            'konten' => 'required|min:5'
+            'konten' => 'required|min:5',
+            'category_id' => 'required',
+            'image' => 'image|file',
         ]);
 
-        Post::where('id', $post->id)->update($validatedData);
+        if($request->file('image')){
+            if($request->oldImage){
+                Storage::delete($request->oldImage);
+            }
+            $validatedData['image'] = $request->file('image')->store('post-image', 'public');
+        }
 
-        return redirect('/post')->with('success', 'Post Anda berhasil diubah!');
+        $post->update($validatedData);
+        if($post){
+            return redirect('/post')->with('success', 'Post Anda berhasil diubah!');
+        }else{
+            return redirect('/post')->with('error', 'Post Anda gagal diubah!');
+        }
     }
 
     public function destroy(Post $post){
         Post::destroy($post->id);
         return redirect('/post')->with('success', 'Post Anda berhasil dihapus!');
+    }
+
+    public function show(Post $post)
+    {
+        return view('post', [
+            'post' => $post,
+            'active' => 'blog',
+        ]);
     }
 }
