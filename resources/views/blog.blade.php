@@ -2,6 +2,17 @@
 
 @section('content')
 <div class="container">
+    {{-- searchbar --}}
+    <div class="row mb-4 justify-content-center">
+        <div class="col-md-8">
+            <form action="/blog">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Carikan" name="search" value="{{ request('search') }}">
+                    <button class="btn btn-dark">Cari</button>
+                </div>
+            </form>
+        </div>
+    </div>
     <div class="row">
         @foreach ($posts as $item)
             <div class="col-md-4 mb-3">
@@ -21,4 +32,11 @@
         @endforeach
     </div>
 </div>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        {{ $posts->links('vendor.pagination.bootstrap-5') }}
+    </div>
+</div>
+
 @endsection

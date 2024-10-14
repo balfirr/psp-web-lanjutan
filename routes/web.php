@@ -22,13 +22,7 @@ Route::get('/about', function () {
     ]);
 });
 
-Route::get('/blog', function () {
-    $posts = Post::all();
-    return view('blog', [
-        'active' => 'blog',
-        'posts' => $posts,
-    ]);
-});
+Route::get('/blog', [PostController::class, 'main']);
 
 Route::get('/dashboard', function () {
     return view('dashboard.dashboard');

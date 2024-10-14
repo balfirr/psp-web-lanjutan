@@ -14,9 +14,27 @@
         <li><a href="/blog" class="nav-link px-2 {{ $active==='blog' ? 'link-secondary' : '' }}">Blog</a></li>
       </ul>
 
-      <div class="col-md-3 text-end">
-        <a href="/login" class="btn btn-outline-primary me-2">Login</a>
-        <a href="/login" class="btn btn-primary">Sign-up</a>
-      </div>
+      @auth
+        <div class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-person"></i> {{ auth()->user()->name }}
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/dashboard">My Dashboard</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <form action="/logout" method="post">
+                @csrf
+                <button type="submit" class="dropdown-item"><i class="bi bi-box-arrow-right"></i> Logout</button>
+              </form>
+            </li>
+          </ul>
+        </div>
+      @else
+        <div class="col-md-3 text-end">
+          <a href="/login" class="btn btn-outline-primary me-2">Login</a>
+          <a href="/login" class="btn btn-primary">Sign-up</a>
+        </div>
+      @endauth
     </header>
 </div>

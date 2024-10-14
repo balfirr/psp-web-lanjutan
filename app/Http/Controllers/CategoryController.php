@@ -73,6 +73,7 @@ class CategoryController extends Controller
         ]);
 
         $category->update($validated);
+        return redirect('/category')->with('success', 'Category berhasil diubah!');
     }
 
     /**

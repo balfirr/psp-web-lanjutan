@@ -10,6 +10,14 @@ use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
+    public function main()
+    {
+        return view('blog', [
+            'active' => 'blog',
+            'posts' => Post::latest()->filter(request(['search']))->paginate(5)->withQueryString()
+        ]);
+    }
+
     public function index()
     {
         $posts = Post::all();
