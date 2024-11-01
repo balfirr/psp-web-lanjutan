@@ -43,7 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/post/{post}/edit', [PostController::class, 'edit']);
     Route::post('/post/{post}/update', [PostController::class, 'update']);
     Route::delete('/post/{post}', [PostController::class, 'destroy']);
-    
+
     Route::get('/category', [CategoryController::class, 'index']);
     Route::get('/category/create', [CategoryController::class, 'create']);
     Route::post('/category', [CategoryController::class, 'store']);
@@ -51,5 +51,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/category/{category:slug}/update', [CategoryController::class, 'update']);
     Route::delete('/category/{category:slug}', [CategoryController::class, 'destroy']);
 });
+
+use App\Http\Controllers\AuthController;
+
+Route::get('auth/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
+
 
 require __DIR__.'/auth.php';
